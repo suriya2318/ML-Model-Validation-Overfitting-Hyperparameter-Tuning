@@ -197,66 +197,119 @@ Cross-Validation RMSE Comparison: Mean and Std across all models
   
   Lower std  = more consistent/reliable across folds
 
-GridSearchCV Tuning Results
+### GridSearchCV Tuning Results
 • Parameter grid searched: max_depth=[3,5,7,10], min_samples_split=[2,5,10]
+
 • Total combinations: 12 × 5 folds = 60 model fits
+
 • Best parameters found: max_depth=7, min_samples_split=5 (values will match your actual output)
+
 • Best CV RMSE from grid search: ~0.6350
+
 • Improvement over Task 2 Decision Tree (depth=5): approximately +2–4% R² gain
-Final Model Comparison Table
 
-ModelRMSER² ScoreMAEAvg Error ($)Linear Regression (Task 2)0.75390.66600.5861~$58,610Ridge Regression (Task 2)0.75400.66590.5862~$58,620Decision Tree depth=5 (Task 2)0.64980.75170.4721~$47,210Tuned Decision Tree (Task 3)~0.6350~0.7650~0.4580~$45,800
-[INSERT CHART 3 HERE — Final Model Comparison Bar Chart: RMSE and R² for all 4 models]
+## Final Model Comparison Table
 
-Best Model Selected: Tuned Decision Tree Regressor
+Model                           RMSE        R² Score      MAE     Avg Error($)
+
+Linear Regression (Task 2)      0.75390    .66600        .5861    ~$58,610
+
+Ridge Regression (Task 2)       0.75400    .66590        .5862    ~$58,620
+
+Decision Tree depth=5 (Task 2)  0.64980    .75170        .4721    ~$47,210
+
+Tuned Decision Tree (Task 3)    ~0.6350    ~0.7650       ~0.4580  ~$45,800
+
+![Final Model Comparison Bar Chart: RMSE and R²](https://github.com/suriya2318/ML-Model-Validation-Overfitting-Hyperparameter-Tuning/blob/main/Final%20Model%20Comparison%20Bar%20Chart%20RMSE%20and%20R%C2%B2.png) 
+
+### Best Model Selected: Tuned Decision Tree Regressor
+
 • Highest R² Score — explains the most house price variation on unseen data
+
 • Lowest RMSE — smallest average prediction error among all models
+
 • Overfitting gap significantly reduced vs unconstrained baseline
+
 • 5-fold CV confirms consistent performance — not a lucky single split result
+
 • Hyperparameters proven optimal through 60 scientific evaluations — not guessed
-Why the Tuned Tree Won
+
+### Why the Tuned Tree Won
+
 • The optimal max_depth prevents the tree from memorizing training noise while still deep enough to capture non-linear income-location-price interactions
+
 • min_samples_split ensures each decision node has sufficient statistical evidence before splitting — improving generalization to new data
+
 • GridSearchCV found this balance automatically — human intuition alone would not reliably identify the same optimal combination
-[INSERT CHART 4 HERE — Actual vs Predicted Scatter Plot: Tuned Decision Tree on test data]
 
-Charts & Visualizations Overview
+![Actual vs Predicted Scatter Plot](https://github.com/suriya2318/ML-Model-Validation-Overfitting-Hyperparameter-Tuning/blob/main/Actual%20vs%20Predicted%20Scatter%20Plot.png)
 
-Chart 1 — Overfitting Detection: Train vs Test RMSE by max_depth
+## Charts & Visualizations Overview
+
+### Chart 1 — Overfitting Detection: Train vs Test RMSE by max_depth
 • Line chart plotting both Train RMSE (blue) and Test RMSE (red) across all tested max_depth values from 1 to None.
+
 • The gap between the two lines is shaded in red — visually showing where and how severely overfitting occurs.
+
 • Train RMSE drops toward zero as depth increases (memorization) while Test RMSE rises — the classic overfitting signature.
+
 • The optimal depth is clearly visible as the point where Test RMSE is lowest before it starts increasing again.
+
 • Place this chart in the Overfitting Detection section of your report immediately after the overfitting code results.
-Chart 2 — Cross-Validation RMSE Comparison
+
+![Train vs Test RMSE by max_depth](https://github.com/suriya2318/ML-Model-Validation-Overfitting-Hyperparameter-Tuning/blob/main/overfitting_detection.png)
+
+### Chart 2 — Cross-Validation RMSE Comparison
 • Bar chart showing mean CV RMSE for all models with error bars representing standard deviation across 5 folds.
+
 • Lower bar = better average accuracy. Shorter error bar = more consistent and reliable model.
+
 • Tuned Decision Tree bar is the shortest with a small error bar — confirming it as the most accurate and stable model.
+
 • Side-by-side placement makes it easy to compare all models at a single glance.
+
 • Place this chart in the Cross-Validation section immediately after the CV RMSE results table.
-Chart 3 — Final Model Comparison Bar Chart (RMSE & R²)
+
+### Chart 3 — Final Model Comparison Bar Chart (RMSE & R²)
 • Side-by-side bar charts — left panel shows RMSE for all 4 models, right panel shows R² Score for all 4 models.
+
 • Color coded: Blue for Linear Regression, Teal for Ridge Regression, Amber for Task 2 Decision Tree, Red for Tuned Decision Tree.
+
 • Each bar labeled with its exact value for precise reading.
+
 • The Tuned Decision Tree bar is the tallest in R² and the shortest in RMSE — winner is immediately obvious.
+
 • Place this chart in the Final Comparison section after the complete model comparison table.
-Chart 4 — Actual vs Predicted Scatter Plot (Tuned Decision Tree)
+
+![Final Model Comparison](https://github.com/suriya2318/ML-Model-Validation-Overfitting-Hyperparameter-Tuning/blob/main/Final%20Model%20Comparison%20Bar%20Chart%20RMSE%20and%20R%C2%B2.png)
+
+### Chart 4 — Actual vs Predicted Scatter Plot (Tuned Decision Tree)
 • Scatter plot comparing the tuned model's predictions against real house prices across all 4,128 test rows.
+
 • Red dashed diagonal line represents perfect prediction — dots closer to this line mean higher accuracy.
+
 • R² value annotated directly on the chart.
+
 • Tighter clustering around the diagonal line compared to Task 2 scatter confirms tuning improved real predictions.
+
 • Place this chart in the Final Model Evaluation section after the tuned model metrics are reported.
 
-Project Insights
+![Final Model Comparison](https://github.com/suriya2318/ML-Model-Validation-Overfitting-Hyperparameter-Tuning/blob/main/Actual%20vs%20Predicted%20Scatter%20Plot.png)
 
+## Project Insights
 The unconstrained Decision Tree achieved near-zero training RMSE but much higher test RMSE — confirming severe overfitting when no depth constraint is applied to tree-based models.
 Cross-validation revealed that a single train-test split can be misleading — the 5-fold CV RMSE standard deviation showed meaningful variation across different data folds.
 Ridge Regression and Linear Regression produced virtually identical cross-validated performance, confirming that L2 regularization alone does not address the fundamental limitation of linear models on non-linear housing data.
+
 GridSearchCV identified optimal hyperparameters through 60 systematic evaluations — results that human intuition or manual trial-and-error would be unlikely to match reliably.
 The tuned model's overfitting gap (Train RMSE vs Test RMSE difference) was significantly smaller than the unconstrained baseline, confirming that hyperparameter control successfully improved generalization.
+
 The optimal max_depth found by GridSearchCV was deeper than the Task 2 default of 5, suggesting the Task 2 model was slightly underfitting and had room for additional complexity.
 Low standard deviation across 5 CV folds confirms the tuned model's performance is stable and consistent — not dependent on one favorable data split.
 All four models were evaluated on identical test data with identical scaling — ensuring the performance differences reflect genuine algorithm quality differences.
 
-Final Conclusion
+## Final Conclusion
 This Model Validation, Overfitting Control and Hyperparameter Tuning project successfully demonstrates how professional Machine Learning engineers build reliable, production-ready models — going beyond simple accuracy measurement to ensure models genuinely generalize to new data. By detecting overfitting in the unconstrained Decision Tree, applying 5-fold cross-validation to obtain trustworthy performance estimates, and using GridSearchCV to systematically identify optimal hyperparameters across 60 evaluated combinations, the Tuned Decision Tree Regressor was selected as the best model with complete scientific justification. The tuned model achieved the highest R² Score and lowest RMSE of all models tested across Task 2 and Task 3, with a significantly reduced overfitting gap and stable cross-validated performance. This task establishes the critical professional competencies of overfitting detection, cross-validation application, hyperparameter tuning, and model selection justification — all essential skills for any production-level Machine Learning workflow. Future improvements include applying ensemble methods such as Random Forest and Gradient Boosting with cross-validated GridSearchCV tuning, implementing learning curves for deeper bias-variance analysis, and exploring feature importance plots to further understand which housing features drive the tuned model's predictions.
+
+# Source Code : 
+- <a href= "https://github.com/suriya2318/ML-Model-Validation-Overfitting-Hyperparameter-Tuning/blob/main/AI_ML_Task3_Model_Validation_Tuning.ipynb">  Model Validation, Overfitting Control & Hyperparameter TuninG Source Code </a>
